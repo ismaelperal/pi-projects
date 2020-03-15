@@ -1,0 +1,30 @@
+version: "3.6"
+
+services:
+  pihole:
+    image: pihole/pihole:v4.4
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    environment:
+      TZ: "Europe/Madrid"
+      WEBPASSWORD: "<sethereapassword>"
+    networks:
+      - proxy
+    volumes:
+      - "/srv/etc-pihole/:/etc/pihole/"
+      - "/srv/etc-dnsmasq.d/:/etc/dnsmasq.d/"
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
+    deploy:
+      restart_policy:
+        condition: on-failure
+      labels:
+        traefik.port: 80
+        traefik.frontend.rule: "Host:pihole.<setheretheIP>.nip.io"
+        traefik.docker.network: "proxy"
+
+networks:
+  proxy:
+    external: true
