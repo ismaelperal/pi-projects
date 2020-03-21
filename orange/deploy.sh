@@ -14,7 +14,7 @@ if [[ ! -f .secrets ]]; then
 	read REMOTE_HOST_IP
 	echo "SSH_KEY_PATH=${SSH_KEY_PATH}
 SSH_REMOTE_USER=${SSH_REMOTE_USER}
-REMOTE_HOST_IP=${REMOTE_HOST_IP}" > .secrets
+REMOTE_HOST_IP=${REMOTE_HOST_IP}" > secrets/deploy.env
 else
 	set -o allexport
 	. ./.secrets

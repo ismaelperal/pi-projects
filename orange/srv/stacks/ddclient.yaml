@@ -1,0 +1,12 @@
+version: "3.6"
+
+services:
+  ddclient:
+    image: ismaelperal/ddclient:v3.9.1
+    environment:
+      TZ: "Europe/Madrid"
+    volumes:
+      - "/srv/etc-ddclient/:/etc/ddclient/"
+    deploy:
+      restart_policy:
+        condition: on-failure

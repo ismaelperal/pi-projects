@@ -23,6 +23,10 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
+      labels:
+        traefik.port: 8080
+        traefik.frontend.rule: "Host:traefik.{{ traefik.domain }}"
+        traefik.docker.network: "proxy"
 
 networks:
   proxy:
