@@ -1,0 +1,35 @@
+# DOES NOT WORK cap_add is not available for docker swarm
+
+version: "3.6"
+
+services:
+  wireguard:
+    image: linuxserver/wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Madrid
+      SERVERURL: gea.ismaelperal.com
+      SERVERPORT: 51820
+      PEERS: 1
+      PEERDNS: 192.168.25.254
+      INTERNAL_SUBNET: 10.25.25.0
+    networks:
+      - proxy
+    volumes:
+      - /srv/etc-wireguard:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - 51820:51820/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+networks:
+  proxy:
+    external: true
